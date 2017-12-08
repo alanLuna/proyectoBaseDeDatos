@@ -33,7 +33,7 @@
                     while($row = $resultado -> fetch_assoc()){
                 ?>
                 <tr>
-                    <td><?= $row['id']; ?></td>
+                    <td><?= $row['siglas']; ?></td>
                     <td><?= $row['nombre']; ?></td>
                 </tr>
                 <?php

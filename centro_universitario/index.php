@@ -112,7 +112,7 @@
     /*cambio 1*/
     var opciones = "";
     for(var i of arrayCentroUniversitario){
-        opciones += "<option value='"+i.id+"'>"+i.id+"</option>";
+        opciones += "<option value='"+i.id+"'>"+i.siglas+"</option>";
     }
     $("#idSeleccionadoCentroUniversitario").append(opciones);
     $("#updateCentroUniversitario").append(opciones);

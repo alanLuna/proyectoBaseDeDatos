@@ -10,6 +10,7 @@ $('#opcionSeleccionada').change(function(){
     if(accionPorRealizar == "nuevoCentroUniversitario"){
         $("#formRegistroCentroUniversitario").css("display","block");
         $('#divModificarCentroUniversitario').css("display","none");
+        $("#formModificarCentroUniversitario").css("display","none");
         $("#divEliminarCentroUniversitario").css("display","none");
         $("#divConsultarCentroUniversitario").css("display","none");
     }else if(accionPorRealizar == "modificarCentroUniversitario"){
@@ -21,12 +22,14 @@ $('#opcionSeleccionada').change(function(){
         $("#formRegistroCentroUniversitario").css("display","none");
         $('#divModificarCentroUniversitario').css("display","none");
         $("#divEliminarCentroUniversitario").css("display","none");
+        $("#formModificarCentroUniversitario").css("display","none");
         $("#divConsultarCentroUniversitario").css("display","block");
     }else if(accionPorRealizar == "eliminarCentroUniversitario"){
         $("#formRegistroCentroUniversitario").css("display","none");
         $('#divModificarCentroUniversitario').css("display","none");
         $("#divEliminarCentroUniversitario").css("display","block");
-        $("#divConsultarCentroUniversitario").css("display","none")
+        $("#divConsultarCentroUniversitario").css("display","none");
+        $("#formModificarCentroUniversitario").css("display","none");
     }
 });
 
@@ -53,6 +56,9 @@ $("#selectCentroUniversitario").change(function(){
 var nombreCentroUniversitario;
 var siglasCentroUniversitario;
 var nombreValido = false, siglasValidas = false;
+var nombreActual,siglasActual,idActual;
+var nombreAjax, siglasAjax;
+var nuevoNombre, nuevasSiglas;
 /*funcion que valida si las siglas tienen texto valido y no son campos vacions*/
 $('#siglasCentroUniversitario').focusout(function(){
     var validar = $('#siglasCentroUniversitario').val();
@@ -89,9 +95,9 @@ $('#siglasCentroUniversitario').focusout(function(){
        var valores = $('#siglasCentroUniversitario').val().toLowerCase();
        var n = arrayCentroUniversitario.length, i = 0;
        while(n > i){
-           var comparar = arrayCentroUniversitario[i].id.toLowerCase();
+           var comparar = arrayCentroUniversitario[i].siglas.toLowerCase();
            if(comparar == valores){
-               console.log("id no valido");
+               console.log("siglas no validas");
                ExisteSiglas = true;
                siglasValidas = false;
                break;
@@ -124,9 +130,10 @@ $("#idSeleccionadoCentroUniversitario").change(function(){
     var idTemporal = $("#idSeleccionadoCentroUniversitario").val();
     var i = 0, max = arrayCentroUniversitario.length;
     while(i < max){
-        var siglas = arrayCentroUniversitario[i].id;
+        var id = arrayCentroUniversitario[i].id;
+        var siglas = arrayCentroUniversitario[i].siglas;
         var nombre = arrayCentroUniversitario[i].nombre;
-        if(siglas == idTemporal){   
+        if(id == idTemporal){   
             $("#tablaConsultaSelectCentroUniversitario").css("display","block");
             $("#insertarIdCentroUniversitario").text(siglas);
             $("#insertarNombreCentroUniversitario").text(nombre);
@@ -136,8 +143,62 @@ $("#idSeleccionadoCentroUniversitario").change(function(){
     }
 });
 /*cambio 1 */
-/*cambio 2: mostrara u ocultara el form de modificar*/
 
+/*cambio 2: mostrara u ocultara el form de modificar*/
+$("#updateCentroUniversitario").change(function(){
+    var idTemporal = $("#updateCentroUniversitario").val();
+    var i = 0, max = arrayCentroUniversitario.length;
+    while(i < max){
+        var id = arrayCentroUniversitario[i].id;
+        var siglas = arrayCentroUniversitario[i].siglas;
+        var nombre = arrayCentroUniversitario[i].nombre;
+        if(id == idTemporal){   
+            $("#formModificarCentroUniversitario").css("display","block");
+            $("#nuevasSiglasCentroUniversitario").val(siglas);
+            $("#nuevoNombreCentroUniversitario").val(nombre);
+            siglasActual = siglas;
+            nombreActual = nombre;
+            siglasAjax = siglas;
+            nombreAjax = nombre;
+            idActual = id;
+            break;
+        }
+        i++;
+    }
+});
+/*funcion que valida si el usuario realizo un cambio real en el campo de la vista de actualizar*/
+$("#nuevasSiglasCentroUniversitario").focusout(function(){
+    var valorSiglas = $("#nuevasSiglasCentroUniversitario").val().toLowerCase();
+    var validarLower = siglasActual.toLowerCase();
+    if(valorSiglas == validarLower){
+        nuevasSiglas = false;
+    }else{
+        nuevasSiglas = true;
+        siglasAjax = valorSiglas;
+    }
+    habilitarBotonCambios();
+});
+/*funcion que valida si el usuario realizo un cambio real en la vista en el campo del nombre*/
+$("#nuevoNombreCentroUniversitario").focusout(function(){
+    var valorNombre = $("#nuevoNombreCentroUniversitario").val().toLowerCase();
+    var validarLower = nombreActual.toLowerCase();
+    if(valorNombre == validarLower){
+        nuevoNombre = false;
+    }else{
+        nuevoNombre = true;
+        nombreAjax = valorNombre;
+    }
+    habilitarBotonCambios();
+});
+
+/*habilida y deshabilita el boton de actualizacion de la vista*/
+function habilitarBotonCambios(){
+    if(nuevoNombre == true || nuevasSiglas == true){
+        $('#botonCambioCentroUniversitario').prop('disabled',false);
+    }else{
+        $('#botonCambioCentroUniversitario').prop('disabled',true);   
+    }
+}
 
 /*funcion que envia los datos a la base de datos para una insersion*/
 function insertarDatos(){
@@ -146,7 +207,7 @@ function insertarDatos(){
         url: 'model.php',
         type: 'POST',
         data: {
-            idCentroUniversitario:siglasCentroUniversitario,
+            siglasCentroUniversitario:siglasCentroUniversitario,
             nameCentroUniversitario:nombreCentroUniversitario,
             accion:"insertar"
         },
@@ -157,3 +218,21 @@ function insertarDatos(){
 }
 
 /*funcion que envia los datos a la base de datos para una actualizacion*/
+function actualizarDatos(){
+    var accion;
+    $.ajax({
+        url: 'model.php',
+        type: 'POST',
+        data: {
+            newIdCentroUniversitario:idActual,
+            newSiglasCentroUniversitario:siglasAjax,
+            newNameCentroUniversitario:nombreAjax,
+            accion:"actualizar"
+        },
+        success: function(respuesta){
+            console.log(respuesta);
+        }
+    });
+}
+
+
