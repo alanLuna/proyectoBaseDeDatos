@@ -1,24 +1,26 @@
 /*deshabilitar botones, esto con el fin de que no se pueda hacer ninguna consulta a SQL sin una validacion previa*/
 $('#botonRegistroCentroUniversitario').prop('disabled',true);
 $('#botonCambioCentroUniversitario').prop('disabled',true);
-$('#botonEliminarCentroUniversitario').prop('disabled',true);
 
 /*Cambia que formulario se va a mostrar dentro de la vista, ya tiene los nombres correctos de los ID que estan como
 includes en la vista principal que es el INDEX.php*/
 $('#opcionSeleccionada').change(function(){
     var accionPorRealizar = $('#opcionSeleccionada').val();
     if(accionPorRealizar == "nuevoCentroUniversitario"){
+        $("#formEliminarCentroUniversitario").css("display","none");
         $("#formRegistroCentroUniversitario").css("display","block");
         $('#divModificarCentroUniversitario').css("display","none");
         $("#formModificarCentroUniversitario").css("display","none");
         $("#divEliminarCentroUniversitario").css("display","none");
         $("#divConsultarCentroUniversitario").css("display","none");
     }else if(accionPorRealizar == "modificarCentroUniversitario"){
+        $("#formEliminarCentroUniversitario").css("display","none");
         $("#formRegistroCentroUniversitario").css("display","none");
         $('#divModificarCentroUniversitario').css("display","block");
         $("#divEliminarCentroUniversitario").css("display","none");
         $("#divConsultarCentroUniversitario").css("display","none")
     }else if(accionPorRealizar == "consultaCentroUniversitario"){
+        $("#formEliminarCentroUniversitario").css("display","none");
         $("#formRegistroCentroUniversitario").css("display","none");
         $('#divModificarCentroUniversitario').css("display","none");
         $("#divEliminarCentroUniversitario").css("display","none");
@@ -59,6 +61,7 @@ var nombreValido = false, siglasValidas = false;
 var nombreActual,siglasActual,idActual;
 var nombreAjax, siglasAjax;
 var nuevoNombre, nuevasSiglas;
+var deleteNombre,deleteSiglas,deleteId;
 /*funcion que valida si las siglas tienen texto valido y no son campos vacions*/
 $('#siglasCentroUniversitario').focusout(function(){
     var validar = $('#siglasCentroUniversitario').val();
@@ -166,6 +169,61 @@ $("#updateCentroUniversitario").change(function(){
         i++;
     }
 });
+
+$('#nuevasSiglasCentroUniversitario').focusout(function(){
+   if($('#nuevasSiglasCentroUniversitario').val() != ""){    
+       var valores = $('#nuevasSiglasCentroUniversitario').val().toLowerCase();
+       var n = arrayCentroUniversitario.length, i = 0;
+       while(n > i){
+           var comparar = arrayCentroUniversitario[i].siglas.toLowerCase();
+           if(comparar == valores){
+               console.log("siglas no validas");
+               nuevasSiglas = false;
+               break;
+           }
+           i++;
+       }
+   }
+    habilitarBotonCambios();
+});
+
+$('#nuevoNombreCentroUniversitario').focusout(function(){
+   if($('#nuevoNombreCentroUniversitario').val() != ""){    
+       var valores = $('#nuevoNombreCentroUniversitario').val().toLowerCase();
+       var n = arrayCentroUniversitario.length, i = 0;
+       while(n > i){
+           var comparar = arrayCentroUniversitario[i].nombre.toLowerCase();
+           if(comparar == valores){
+               console.log("nombre no valido");
+               nuevoNombre = false;
+               break;
+           }
+           i++;
+       }
+   } 
+    habilitarBotonCambios();
+});
+/*cambio 2: mostrara u ocultara el form de modificar*/
+$("#deleteCentroUniversitario").change(function(){
+    var idTemporal = $("#deleteCentroUniversitario").val();
+    var i = 0, max = arrayCentroUniversitario.length;
+    while(i < max){
+        var id = arrayCentroUniversitario[i].id;
+        var siglas = arrayCentroUniversitario[i].siglas;
+        var nombre = arrayCentroUniversitario[i].nombre;
+        if(id == idTemporal){   
+            $("#formEliminarCentroUniversitario").css("display","block");
+            $("#deleteSiglasCentroUniversitario").val(siglas);
+            $("#deleteNombreCentroUniversitario").val(nombre);
+            deleteSiglas = siglas;
+            deleteNombre = nombre;
+            deleteId = id;
+            console.log(deleteSiglas,deleteNombre,deleteId);
+            break;
+        }
+        i++;
+    }
+});
 /*funcion que valida si el usuario realizo un cambio real en el campo de la vista de actualizar*/
 $("#nuevasSiglasCentroUniversitario").focusout(function(){
     var valorSiglas = $("#nuevasSiglasCentroUniversitario").val().toLowerCase();
@@ -234,5 +292,22 @@ function actualizarDatos(){
         }
     });
 }
-
-
+/*funcion que elimina los datos de la base de datos para una actualizacion, aunque no los elimina ya que para la estructura de los datos solo se cambia el estado de la columna delete a 1 */
+function eliminarDatos(){
+    console.log("aqui estoy"); 
+    console.log(deleteSiglas,deleteNombre,deleteId);
+    var accion;
+    $.ajax({
+        url: 'model.php',
+        type: 'POST',
+        data: {
+            deleteIdCentroUniversitario:deleteId,
+            accion:"eliminar"
+        },
+        success: function(respuesta){
+            console.log(respuesta);
+        }
+    }); 
+    
+    console.log(deleteSiglas,deleteNombre,deleteId);
+}

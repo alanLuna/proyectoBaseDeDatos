@@ -17,8 +17,8 @@
                 <input class="form-control" type="text" id="nuevoNombre<?= $valor; ?>" name="nuevoNombre<?= $valor;?>" placeholder="Ingrese el nuevo nombre" required autocomplete="off">
             </div>
         </div>
-        <div class="text-center" onclick="actualizarDatos()" class="text-center">
-            <a href="javascript:void(0)" >
+        <div class="text-center">
+            <a href="javascript:void(0)" onclick="actualizarDatos()" class="text-center">
                 <button id="botonCambio<?= $valor ?>" class="btn btn-alt4 btn-shade2 btn-rad btn-lg" type="submit">
                     <i class="icon s7-check">
                     </i>Actualizar <?= $consulta; ?>

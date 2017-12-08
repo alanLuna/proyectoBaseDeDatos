@@ -116,6 +116,7 @@
     }
     $("#idSeleccionadoCentroUniversitario").append(opciones);
     $("#updateCentroUniversitario").append(opciones);
+    $("#deleteCentroUniversitario").append(opciones);
     /*cambio 1*/
 </script>
 </html>
