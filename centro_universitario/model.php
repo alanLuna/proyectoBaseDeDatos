@@ -55,7 +55,7 @@ function eliminarCentro($id){
     $usuario = "alan";
     $passwordServer = "root";
     $baseDeDatos = "udg";
-    $sql = "UPDATE cu SET deleted='1' WHERE id='$id' AND deleted='0'";
+    $sql = "UPDATE cu SET deleted='1' WHERE id='$id'";
     $con = mysqli_connect($servidor,$usuario,$passwordServer,$baseDeDatos);
     $resultado = mysqli_query($con,$sql);
     if($resultado == true){
@@ -66,7 +66,6 @@ function eliminarCentro($id){
 }
 
 if(count($_POST) > 0){
-    echo "<script type=\"text/javascript\"> console.log('llegue hasta aqui');</script>";
     $con = mysqli_connect($servidor,$usuario,$passwordServer,$baseDeDatos);
     if($_POST['accion'] == 'insertar'){
         echo "<script type=\"text/javascript\"> console.log('insertando datos...');</script>";
@@ -84,8 +83,6 @@ if(count($_POST) > 0){
     }else if($_POST['accion'] == 'eliminar'){
         echo "<script type=\"text/javascript\"> console.log('eliminando datos...');</script>";
         $byeIdCentroUniversitario = $_POST['deleteIdCentroUniversitario'];
-        $byeSiglasCentroUniversitario = $_POST['deleteSiglasCentroUniversitario'];
-        $byeNombreCentroUniversitario = $_POST['deleteNombreCentroUniversitario'];
         eliminarCentroUniversitario($byeSiglasCentroUniversitario,$byeNombreCentroUniversitario,$byeIdCentroUniversitario);
         header('location:../centroUniversitario/');
     }else{
