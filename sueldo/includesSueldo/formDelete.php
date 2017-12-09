@@ -5,16 +5,9 @@
     </select>
     <form id="formModificar<?= $valor; ?>" class="form-horizontal" method="post" autocomplete="off" style="display:none;">
         <div class="form-group">
-            <label class="col-md-3 h4">Siglas</label>                     
-            <div class="col-md-9">
-                <input class="form-control" type="text" name="nuevasSiglas<?= $valor ?>" id="nuevasSiglas<?= $valor ?>"
-                placeholder="Ingrese las nuevas siglas del complejo" required autocomplete="off">  
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-md-3 h4">Nombre del <?= $consulta; ?></label>
             <div class="col-md-9">
-                <input class="form-control" type="text" id="nuevoNombre<?= $valor; ?>" name="nuevoNombre<?= $valor;?>" placeholder="Ingrese el nuevo nombre" required autocomplete="off">
+                <input class="form-control" type="text" id="nuevoSalario<?= $valor; ?>" name="nuevoSalario<?= $valor;?>" placeholder="Ingrese el nuevo monto" required autocomplete="off">
             </div>
         </div>
         <div class="text-center">
@@ -24,4 +17,4 @@
             </button>
         </div>              
     </form>
-</div>  
+</div> 

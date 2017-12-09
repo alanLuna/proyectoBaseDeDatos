@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Gestión de C.U.</title>
+    <title>Gestión de Sueldos</title>
     <?php include('../includes/header.php'); ?>
 </head>
 <body>
@@ -54,7 +54,7 @@
                         <a href="#">Administrar salario a puesto</a>
                       </li>
                       <li>
-                        <a href="#">Administrar puesto a trabajador</a>
+                        <a href="#">Administrar Sueldo a trabajador</a>
                       </li>
                       <li>
                         <a href="#">Administrar trabajador a centro universitario</a>
@@ -70,6 +70,19 @@
       <?php include('../includes/sidebar.php')?>
         <!--contenido o cuerpo de la vista HTML -->
       <div class="container col-md-6 col-md-offset-4 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-4" style="margin-top:10px;">
+          <?php
+                    $servidor = "localhost";
+                    $usuario = "Gadocj";
+                    $passwordServer = "Jajagoca1996";
+                    $baseDeDatos = "udg";
+                    $sql = "SELECT * FROM sueldo";
+                    $json = [];
+                    $con = mysqli_connect($servidor,$usuario,$passwordServer,$baseDeDatos);
+                    $resultado = mysqli_query($con,$sql);
+                    while($registro = $resultado -> fetch_assoc()){
+                        $json[] = $registro;
+                    }
+          ?>
           <div class="container col-md-8 col-xs-12 col-lg-8 col-sm-12">
             <div class="container col-md-12 col-xs-12 col-lg-12 col-sm-12">
                 <span></span>
@@ -83,8 +96,8 @@
             </div>
             <?php include('includesSueldo/formRegistro.php');  ?>
             <?php include('includesSueldo/formCambios.php');  ?>
-            <?php include('includesSueldo/formConsulta.php');  ?>
             <?php include('includesSueldo/formDelete.php');  ?>
+            <?php include('includesSueldo/formConsulta.php');  ?>
           </div>
       </div>
       <nav class="am-right-sidebar">
@@ -94,4 +107,16 @@
 </body>
 <?php include('../includes/scripts.php'); ?>
 <script type="text/javascript" src="controller.js"></script>
+<script type="text/javascript">
+    var arraySueldo = <?php echo json_encode($json); ?>;
+    /*cambio 1*/
+    var opciones = "";
+    for(var i of arraySueldo){
+        opciones += "<option value='"+i.id+"'>"+i.id+"-"+i.nombre+"</option>";
+    }
+    $("#idSeleccionadoSueldo").append(opciones);
+    $("#updateSueldo").append(opciones);
+    $("#deleteSueldo").append(opciones);
+    /*cambio 1*/
+</script>
 </html>

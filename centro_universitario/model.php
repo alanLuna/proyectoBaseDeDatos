@@ -1,14 +1,14 @@
 <?php
 /*variables definidas para almacenar los valores necesarios para el acceso a la base de datos de afiliadosa*/
 $servidor = "localhost";
-$usuario = "alan";
-$passwordServer = "root";
+$usuario = "Gadocj";
+$passwordServer = "Jajagoca1996";
 $baseDeDatos = "udg";
 
 function generarJsonCentroUniversitario(){
     $servidor = "localhost";
-    $usuario = "alan";
-    $passwordServer = "root";
+    $usuario = "Gadocj";
+    $passwordServer = "Jajagoca1996";
     $baseDeDatos = "udg";
     $sql = "SELECT * FROM cu";
     $json = [];
@@ -22,8 +22,8 @@ function generarJsonCentroUniversitario(){
 
 function insertarNuevoCentro($siglas,$nombre){
     $servidor = "localhost";
-    $usuario = "alan";
-    $passwordServer = "root";
+    $usuario = "Gadocj";
+    $passwordServer = "Jajagoca1996";
     $baseDeDatos = "udg";
     $sql = "INSERT INTO cu(siglas,nombre,deleted)VALUES('$siglas','$nombre','0')";
     $con = mysqli_connect($servidor,$usuario,$passwordServer,$baseDeDatos);
@@ -37,8 +37,8 @@ function insertarNuevoCentro($siglas,$nombre){
 
 function modificarCentro($siglas,$nombre,$id){
     $servidor = "localhost";
-    $usuario = "alan";
-    $passwordServer = "root";
+    $usuario = "Gadocj";
+    $passwordServer = "Jajagoca1996";
     $baseDeDatos = "udg";
     $sql = "UPDATE cu SET siglas='$siglas',nombre='$nombre' WHERE id='$id' AND deleted='0'";
     $con = mysqli_connect($servidor,$usuario,$passwordServer,$baseDeDatos);
@@ -50,10 +50,10 @@ function modificarCentro($siglas,$nombre,$id){
     }
 }
 
-function eliminarCentro($id){
+function eliminarCentroUniversitario($id){
     $servidor = "localhost";
-    $usuario = "alan";
-    $passwordServer = "root";
+    $usuario = "Gadocj";
+    $passwordServer = "Jajagoca1996";
     $baseDeDatos = "udg";
     $sql = "UPDATE cu SET deleted='1' WHERE id='$id' AND deleted='0'";
     $con = mysqli_connect($servidor,$usuario,$passwordServer,$baseDeDatos);

@@ -1,8 +1,8 @@
 <?php
     function mostrarTodosCentrosUniversitarios(){
         $servidor = "localhost";
-        $usuario = "alan";
-        $passwordServer = "root";
+        $usuario = "Gadocj";
+        $passwordServer = "Jajagoca1996";
         $baseDeDatos = "udg";
         $sql = 'SELECT * FROM cu WHERE deleted="0"';
         $con = mysqli_connect($servidor,$usuario,$passwordServer,$baseDeDatos);

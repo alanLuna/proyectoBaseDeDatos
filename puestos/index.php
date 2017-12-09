@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <?php
     $consulta = "puesto";
-    $valor="Puestos";
+    $valor="Puesto";
 ?>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Gestión de C.U.</title>
+    <title>Gestión de Puestos</title>
     <?php include('../includes/header.php'); ?>
 </head>
 <body>
@@ -69,7 +69,20 @@
       </nav>
       <?php include('../includes/sidebar.php')?>
         <!--contenido o cuerpo de la vista HTML -->
-      <div class="container col-md-6    col-md-offset-4 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-4" style="margin-top:10px;">
+      <div class="container col-md-6 col-md-offset-4 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-4" style="margin-top:10px;">
+          <?php
+                    $servidor = "localhost";
+                    $usuario = "Gadocj";
+                    $passwordServer = "Jajagoca1996";
+                    $baseDeDatos = "udg";
+                    $sql = "SELECT * FROM puesto";
+                    $json = [];
+                    $con = mysqli_connect($servidor,$usuario,$passwordServer,$baseDeDatos);
+                    $resultado = mysqli_query($con,$sql);
+                    while($registro = $resultado -> fetch_assoc()){
+                        $json[] = $registro;
+                    }
+          ?>
           <div class="container col-md-8 col-xs-12 col-lg-8 col-sm-12">
             <div class="container col-md-12 col-xs-12 col-lg-12 col-sm-12">
                 <span></span>
@@ -83,8 +96,8 @@
             </div>
             <?php include('includesPuesto/formRegistro.php');  ?>
             <?php include('includesPuesto/formCambios.php');  ?>
-            <?php include('includesPuesto/formConsulta.php');  ?>
             <?php include('includesPuesto/formDelete.php');  ?>
+            <?php include('includesPuesto/formConsulta.php');  ?>
           </div>
       </div>
       <nav class="am-right-sidebar">
@@ -94,4 +107,16 @@
 </body>
 <?php include('../includes/scripts.php'); ?>
 <script type="text/javascript" src="controller.js"></script>
+<script type="text/javascript">
+    var arrayPuesto = <?php echo json_encode($json); ?>;
+    /*cambio 1*/
+    var opciones = "";
+    for(var i of arrayPuesto){
+        opciones += "<option value='"+i.id+"'>"+i.id+"-"+i.nombre+"</option>";
+    }
+    $("#idSeleccionadoPuesto").append(opciones);
+    $("#updatePuesto").append(opciones);
+    $("#deletePuesto").append(opciones);
+    /*cambio 1*/
+</script>
 </html>

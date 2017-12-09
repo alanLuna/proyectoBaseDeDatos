@@ -72,8 +72,8 @@
       <div class="container col-md-6 col-md-offset-4 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-4" style="margin-top:10px;">
           <?php
                     $servidor = "localhost";
-                    $usuario = "alan";
-                    $passwordServer = "root";
+                    $usuario = "Gadocj";
+                    $passwordServer = "Jajagoca1996";
                     $baseDeDatos = "udg";
                     $sql = "SELECT * FROM cu";
                     $json = [];
